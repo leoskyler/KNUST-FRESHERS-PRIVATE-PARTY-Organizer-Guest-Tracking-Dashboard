@@ -1,4 +1,4 @@
-// State Variables initialized to your requested exact numbers
+// State Variables initialized
 let singleTickets = 43;
 let doubleTickets = 21;
 let groupTickets = 17;
@@ -7,15 +7,12 @@ const maxCapacity = 180;
 
 // Update UI and Statistics
 function updateDashboard() {
-  // Headcounts per tier: Single = 1, Double = 2, Group = 4
   const singleHeadcount = singleTickets * 1;
   const doubleHeadcount = doubleTickets * 2;
   const groupHeadcount = groupTickets * 4;
 
   const totalGuests = singleHeadcount + doubleHeadcount + groupHeadcount;
   const totalPurchases = singleTickets + doubleTickets + groupTickets;
-
-  // Prices: Single = GHS 120, Double = GHS 210, Group = GHS 320
   const totalRevenue = (singleTickets * 120) + (doubleTickets * 210) + (groupTickets * 320);
 
   // Update DOM Elements
@@ -27,12 +24,13 @@ function updateDashboard() {
   document.getElementById('double-count').textContent = doubleTickets;
   document.getElementById('group-count').textContent = groupTickets;
 
-  // Update Capacity Bar
+  // Update Capacity Bar & Percentage Text
   document.getElementById('cap-current').textContent = totalGuests;
   document.getElementById('cap-max').textContent = maxCapacity;
 
   let percent = Math.min(Math.round((totalGuests / maxCapacity) * 100), 100);
   document.getElementById('capacity-fill').style.width = `${percent}%`;
+  document.getElementById('cap-percentage').textContent = `(${percent}%)`;
 }
 
 // Adjust Ticket Quantities

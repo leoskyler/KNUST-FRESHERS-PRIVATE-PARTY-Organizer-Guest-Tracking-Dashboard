@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KNUST FRESHERS PARTY - Tracking Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated Ambient Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="wrapper">
+    <!-- Header -->
+    <header class="hero-header">
+      <div class="badge">ORGANIZER CONTROL CENTER</div>
+      <h1 class="glitch-title">KNUST FRESHERS<br><span class="highlight">GUEST & TICKET TRACKER</span></h1>
+      <p class="subtitle">Real-time venue attendance, sales performance & protocol allocation analytics.</p>
+    </header>
+
+    <!-- Key Metrics Stats Cards -->
+    <section class="stats-grid">
+      <!-- Total Guests Card -->
+      <div class="stat-card primary">
+        <div class="stat-header">
+          <span class="stat-title">TOTAL GUESTS AT VENUE</span>
+          <span class="stat-icon">👥</span>
+        </div>
+        <div class="stat-value" id="total-guests">153</div>
+        <div class="stat-subtext">Calculated from total tickets sold</div>
+      </div>
+
+      <!-- Total Revenue Card -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">TOTAL REVENUE GENERATED</span>
+          <span class="stat-icon">💰</span>
+        </div>
+        <div class="stat-value gold">GHS <span id="total-revenue">15,010</span></div>
+        <div class="stat-subtext">Mobile Money Deposits Collected</div>
+      </div>
+
+      <!-- Total Tickets Sold Card -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-title">TOTAL PURCHASES</span>
+          <span class="stat-icon">🎟️</span>
+        </div>
+        <div class="stat-value" id="total-purchases">81</div>
+        <div class="stat-subtext">Transactions Completed</div>
+      </div>
+    </section>
+
+    <!-- Venue Capacity Bar -->
+    <section class="capacity-section">
+      <div class="capacity-header">
+        <span>VENUE CAPACITY OCCUPANCY</span>
+        <span class="capacity-count"><strong id="cap-current">153</strong> / <span id="cap-max">180</span> Max Guests</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="capacity-fill" style="width: 85%;"></div>
+      </div>
+    </section>
+
+    <!-- Grid Layout: Ticket Breakdown & Host Protocol -->
+    <div class="dashboard-grid">
+      
+      <!-- Left Column: Interactive Ticket Tier Counters -->
+      <section class="tier-breakdown-card">
+        <h2 class="section-title left">TICKET SALES BREAKDOWN</h2>
+        
+        <!-- Single Pass Row -->
+        <div class="tier-counter-row">
+          <div class="tier-info">
+            <div class="tier-name-badge">
+              <span class="tier-title">Single Pass</span>
+              <span class="tier-price">GHS 120 (1 Person)</span>
+            </div>
+            <div class="tier-headcount">+1 Headcount / Ticket</div>
+          </div>
+          <div class="controls">
+            <button class="btn-ctrl" onclick="adjustTier('single', -1)">-</button>
+            <span class="counter-val" id="single-count">43</span>
+            <button class="btn-ctrl" onclick="adjustTier('single', 1)">+</button>
+          </div>
+        </div>
+
+        <!-- Double Pass Row -->
+        <div class="tier-counter-row">
+          <div class="tier-info">
+            <div class="tier-name-badge">
+              <span class="tier-title">Double Pass</span>
+              <span class="tier-price">GHS 210 (2 People)</span>
+            </div>
+            <div class="tier-headcount">+2 Headcounts / Ticket</div>
+          </div>
+          <div class="controls">
+            <button class="btn-ctrl" onclick="adjustTier('double', -1)">-</button>
+            <span class="counter-val" id="double-count">21</span>
+            <button class="btn-ctrl" onclick="adjustTier('double', 1)">+</button>
+          </div>
+        </div>
+
+        <!-- Squad Pack Row -->
+        <div class="tier-counter-row">
+          <div class="tier-info">
+            <div class="tier-name-badge">
+              <span class="tier-title">Squad Pack (Group of 4)</span>
+              <span class="tier-price">GHS 320 (4 People)</span>
+            </div>
+            <div class="tier-headcount">+4 Headcounts / Ticket</div>
+          </div>
+          <div class="controls">
+            <button class="btn-ctrl" onclick="adjustTier('group', -1)">-</button>
+            <span class="counter-val" id="group-count">17</span>
+            <button class="btn-ctrl" onclick="adjustTier('group', 1)">+</button>
+          </div>
+        </div>
+
+        <!-- Global Control Buttons -->
+        <div class="action-buttons">
+          <button class="action-btn" onclick="exportData()">📥 Export Attendance CSV</button>
+          <button class="action-btn danger" onclick="resetStats()">🔄 Reset All Stats</button>
+        </div>
+      </section>
+
+      <!-- Right Column: Host Free Tickets / Protocol Allocation -->
+      <section class="hosts-protocol-card">
+        <div class="protocol-header">
+          <h2 class="section-title left margin-none">FREE TICKETS / PROTOCOL ALLOCATION</h2>
+          <span class="live-dot-badge"><span class="green-dot"></span> Live Allocation</span>
+        </div>
+        <p class="protocol-sub">Remaining free/protocol tickets assigned to party hosts.</p>
+
+        <div class="host-list">
+          <!-- FROST -->
+          <div class="host-protocol-row">
+            <div class="host-details">
+              <div class="host-avatar">F</div>
+              <div class="host-name">FROST</div>
+            </div>
+            <div class="protocol-badge active">
+              <span>1 TICKET LEFT</span>
+            </div>
+          </div>
+
+          <!-- ESCOBAR -->
+          <div class="host-protocol-row">
+            <div class="host-details">
+              <div class="host-avatar">E</div>
+              <div class="host-name">ESCOBAR</div>
+            </div>
+            <div class="protocol-badge depleted">
+              <span>0 TICKETS LEFT</span>
+            </div>
+          </div>
+
+          <!-- VORTEX -->
+          <div class="host-protocol-row">
+            <div class="host-details">
+              <div class="host-avatar">V</div>
+              <div class="host-name">VORTEX</div>
+            </div>
+            <div class="protocol-badge active">
+              <span>1 TICKET LEFT</span>
+            </div>
+          </div>
+
+          <!-- PHANTOM -->
+          <div class="host-protocol-row">
+            <div class="host-details">
+              <div class="host-avatar">P</div>
+              <div class="host-name">PHANTOM</div>
+            </div>
+            <div class="protocol-badge active highlight">
+              <span>2 TICKETS LEFT</span>
+            </div>
+          </div>
+
+          <!-- ZARK -->
+          <div class="host-protocol-row">
+            <div class="host-details">
+              <div class="host-avatar">Z</div>
+              <div class="host-name">ZARK</div>
+            </div>
+            <div class="protocol-badge depleted">
+              <span>0 TICKETS LEFT</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Official Banner Footer -->
+    <footer class="hosts-banner-footer">
+      OFFICIAL PARTY HOSTS: 
+      <span class="footer-host">ESCOBAR</span> • 
+      <span class="footer-host">FROST</span> • 
+      <span class="footer-host">VORTEX</span> • 
+      <span class="footer-host">PHANTOM</span> • 
+      <span class="footer-host">ZARK</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

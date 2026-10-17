@@ -154,15 +154,24 @@ body {
 .capacity-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 12px;
   color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .capacity-count strong {
   color: #fff;
+}
+
+.cap-percentage {
+  color: var(--accent-gold);
+  font-weight: 800;
+  margin-left: 6px;
 }
 
 .progress-bar-bg {
@@ -330,6 +339,8 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .live-dot-badge {
@@ -403,6 +414,8 @@ body {
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .protocol-badge.active {
@@ -411,10 +424,10 @@ body {
   color: var(--accent-cyan);
 }
 
-.protocol-badge.active.highlight {
+.protocol-badge.gold {
   background: rgba(255, 215, 0, 0.15);
   border: 1px solid var(--accent-gold);
-  color: var(--accent-gold);
+  color: #ffd700;
 }
 
 .protocol-badge.depleted {
